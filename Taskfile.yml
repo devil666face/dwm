@@ -1,0 +1,63 @@
+version: "3"
+
+vars:
+  bin: "{{.PWD}}/bin"
+
+env:
+  CGO_ENABLED: 0
+  GOARCH: amd64
+  COMPOSE_BAKE: true
+
+tasks:
+  setup:
+    desc: set up the environment
+    silent: true
+    cmds:
+      - mkdir -p {{.bin}}
+      - |
+        wget https://github.com/yassinebenaid/bunster/releases/download/v0.13.0/bunster_linux-amd64.tar.gz -O {{.bin}}/bunster.tar.gz && \
+        tar -xf {{.bin}}/bunster.tar.gz -C {{.bin}} && \
+        rm -rf {{.bin}}/bunster.tar.gz {{.bin}}/LICENSE {{.bin}}/README.md
+      - sudo apt-get install libx11-dev libxft-dev libxinerama-dev --yes
+
+  build.bash:
+    desc: build _dwm script
+    silent: true
+    cmds:
+      - |
+        {{.bin}}/bunster build _dwm -o {{.bin}}/_dwm
+
+  build.dwm:
+    desc: build dwm bin
+    silent: true
+    dir: dwm
+    cmds:
+      - make dwm
+      - mv dwm {{.bin}}
+
+  build.dwm-flexipatch:
+    desc: build dwm bin
+    silent: true
+    dir: dwm
+    cmds:
+      - make dwm
+      - mv dwm {{.bin}}
+
+  build.dwmblocks:
+    desc: build dwmblocks bin
+    silent: true
+    dir: dwmblocks
+    cmds:
+      - make dwmblocks
+      - mv dwmblocks {{.bin}}
+
+  build:
+    desc: build all proj
+    silent: true
+    deps:
+      - build.dwm
+      - build.bash
+      - build.dwmblocks
+    cmds:
+      - cp {{.bin}}/_dwm /usr/local/bin
+      - sudo cp dwm.desktop /usr/share/xsessions
