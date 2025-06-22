@@ -38,7 +38,7 @@ tasks:
   build.dwm-flexipatch:
     desc: build dwm bin
     silent: true
-    dir: dwm
+    dir: dwm-flexipatch
     cmds:
       - make dwm
       - mv dwm {{.bin}}
