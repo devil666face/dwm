@@ -32,40 +32,40 @@ static const int showsystray = 1;             /* 0 means no systray */
 static int tagindicatortype = INDICATOR_TOP_LEFT_SQUARE;
 static int tiledindicatortype = INDICATOR_NONE;
 static int floatindicatortype = INDICATOR_TOP_LEFT_SQUARE;
-static const char *fonts[] = {"CaskaydiaCove Nerd Font:size=15:style=SemiBold", "CaskaydiaCove Nerd Font:size=15:style=SemiBold"};
-static const char dmenufont[] = "CaskaydiaCove Nerd Font:size=15:style=SemiBold";
+static const char *fonts[] = {"CaskaydiaCove Nerd Font:size=16:style=SemiBold", "CaskaydiaCove Nerd Font:size=16:style=SemiBold"};
+static const char dmenufont[] = "CaskaydiaCove Nerd Font:size=16:style=SemiBold";
 
-static char c000000[] = "#000000"; // placeholder value
+static char c000000[] = "#000000";
 
-static char normfgcolor[] = "#bbbbbb";
-static char normbgcolor[] = "#222222";
-static char normbordercolor[] = "#444444";
+static char normfgcolor[] = "#F8F8F2";
+static char normbgcolor[] = "#282A36";
+static char normbordercolor[] = "#44475A";
 static char normfloatcolor[] = "#db8fd9";
 
-static char selfgcolor[] = "#eeeeee";
-static char selbgcolor[] = "#005577";
-static char selbordercolor[] = "#005577";
-static char selfloatcolor[] = "#005577";
+static char selfgcolor[] = "#282A36";
+static char selbgcolor[] = "#BD93F9";
+static char selbordercolor[] = "#BD93F9";
+static char selfloatcolor[] = "#BD93F9";
 
-static char titlenormfgcolor[] = "#bbbbbb";
-static char titlenormbgcolor[] = "#222222";
-static char titlenormbordercolor[] = "#444444";
-static char titlenormfloatcolor[] = "#db8fd9";
+static char titlenormfgcolor[] = "#F8F8F2";
+static char titlenormbgcolor[] = "#282A36";
+static char titlenormbordercolor[] = "#44475A";
+static char titlenormfloatcolor[] = "#44475A";
 
-static char titleselfgcolor[] = "#eeeeee";
-static char titleselbgcolor[] = "#005577";
-static char titleselbordercolor[] = "#005577";
-static char titleselfloatcolor[] = "#005577";
+static char titleselfgcolor[] = "#282A36";
+static char titleselbgcolor[] = "#BD93F9";
+static char titleselbordercolor[] = "#BD93F9";
+static char titleselfloatcolor[] = "#BD93F9";
 
-static char tagsnormfgcolor[] = "#bbbbbb";
-static char tagsnormbgcolor[] = "#222222";
-static char tagsnormbordercolor[] = "#444444";
-static char tagsnormfloatcolor[] = "#db8fd9";
+static char tagsnormfgcolor[] = "#F8F8F2";
+static char tagsnormbgcolor[] = "#282A36";
+static char tagsnormbordercolor[] = "#44475A";
+static char tagsnormfloatcolor[] = "#44475A";
 
-static char tagsselfgcolor[] = "#eeeeee";
-static char tagsselbgcolor[] = "#005577";
-static char tagsselbordercolor[] = "#005577";
-static char tagsselfloatcolor[] = "#005577";
+static char tagsselfgcolor[] = "#282A36";
+static char tagsselbgcolor[] = "#BD93F9";
+static char tagsselbordercolor[] = "#BD93F9";
+static char tagsselfloatcolor[] = "#BD93F9";
 
 static char hidnormfgcolor[] = "#005577";
 static char hidselfgcolor[] = "#227799";
