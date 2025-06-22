@@ -16,7 +16,6 @@
 #include "attachx.c"
 #include "focusdir.c"
 #include "inplacerotate.c"
-#include "moveresize.c"
 #include "pertag.c"
 #include "placedir.c"
 #include "placemouse.c"

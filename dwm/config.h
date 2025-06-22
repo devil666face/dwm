@@ -11,7 +11,7 @@
   }
 
 /* appearance */
-static const unsigned int borderpx = 1; /* border pixel of windows */
+static const unsigned int borderpx = 4; /* border pixel of windows */
 static const unsigned int snap = 32;    /* snap pixel */
 static const unsigned int gappih = 10;  /* horiz inner gap between windows */
 static const unsigned int gappiv = 10;  /* vert inner gap between windows */
@@ -206,36 +206,25 @@ static const char *nautilus[] = {"nautilus", "-w", NULL};
 
 static const Key keys[] = {
     /* modifier                     key            function                argument */
-    {MODKEY, XK_d, spawn, {.v = dmenucmd}},
-    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termcmd}},
-    {MODKEY, XK_b, togglebar, {0}},
-    // {MODKEY, XK_j, focusstack, {.i = +1}},
-    // {MODKEY, XK_k, focusstack, {.i = -1}},
-    {MODKEY, XK_Left, focusdir, {.i = 0}},              // left
-    {MODKEY, XK_Right, focusdir, {.i = 1}},             // right
-    {MODKEY, XK_Up, focusdir, {.i = 2}},                // up
-    {MODKEY, XK_Down, focusdir, {.i = 3}},              // down
-    {MODKEY | ShiftMask, XK_Left, placedir, {.i = 0}},  // left
-    {MODKEY | ShiftMask, XK_Right, placedir, {.i = 1}}, // right
-    {MODKEY | ShiftMask, XK_Up, placedir, {.i = 2}},    // up
-    {MODKEY | ShiftMask, XK_Down, placedir, {.i = 3}},  // down
+    {MODKEY, XK_Return, spawn, {.v = termcmd}},            // term
+    {MODKEY, XK_q, killclient, {0}},                       // close current window
+    {MODKEY | ShiftMask, XK_r, quit, {0}},                 // restart dwm
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}}, // exit from session
+    {MODKEY, XK_d, spawn, {.v = dmenucmd}},                // dmenu
+    {MODKEY, XK_b, togglebar, {0}},                        // show/close bar
+    {MODKEY, XK_Left, focusdir, {.i = 0}},                 // left
+    {MODKEY, XK_Right, focusdir, {.i = 1}},                // right
+    {MODKEY, XK_Up, focusdir, {.i = 2}},                   // up
+    {MODKEY, XK_Down, focusdir, {.i = 3}},                 // down
+    {MODKEY | ShiftMask, XK_Left, placedir, {.i = 0}},     // swap left
+    {MODKEY | ShiftMask, XK_Right, placedir, {.i = 1}},    // swap right
+    {MODKEY | ShiftMask, XK_Up, placedir, {.i = 2}},       // swap up
+    {MODKEY | ShiftMask, XK_Down, placedir, {.i = 3}},     // swap down
     {MODKEY, XK_s, swapfocus, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_j, inplacerotate, {.i = +2}}, // same as rotatestack
-    // {MODKEY | Mod4Mask, XK_k, inplacerotate, {.i = -2}}, // same as reotatestack
-    // {MODKEY | Mod4Mask | ShiftMask, XK_j, inplacerotate, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_k, inplacerotate, {.i = -1}},
-    // {MODKEY, XK_i, incnmaster, {.i = +1}},
-    // {MODKEY, XK_d, incnmaster, {.i = -1}},
-    // {MODKEY, XK_h, setmfact, {.f = -0.05}},
-    // {MODKEY, XK_l, setmfact, {.f = +0.05}},
-    // {MODKEY | ControlMask, XK_Down, moveresize, {.v = "0x 25y 0w 0h"}},
-    // {MODKEY | ControlMask, XK_Up, moveresize, {.v = "0x -25y 0w 0h"}},
-    // {MODKEY | ControlMask, XK_Right, moveresize, {.v = "25x 0y 0w 0h"}},
-    // {MODKEY | ControlMask, XK_Left, moveresize, {.v = "-25x 0y 0w 0h"}},
-    {MODKEY | ControlMask, XK_Down, moveresize, {.v = "0x 0y 0w 25h"}},
-    {MODKEY | ControlMask, XK_Up, moveresize, {.v = "0x 0y 0w -25h"}},
-    {MODKEY | ControlMask, XK_Right, moveresize, {.v = "0x 0y 25w 0h"}},
-    {MODKEY | ControlMask, XK_Left, moveresize, {.v = "0x 0y -25w 0h"}},
+    {MODKEY, XK_g, incnmaster, {.i = +1}},
+    {MODKEY, XK_v, incnmaster, {.i = -1}},
+    {MODKEY, XK_h, setmfact, {.f = -0.05}},
+    {MODKEY, XK_l, setmfact, {.f = +0.05}},
     // {MODKEY, XK_Return, zoom, {0}},
     // {MODKEY | Mod4Mask, XK_u, incrgaps, {.i = +1}},
     // {MODKEY | Mod4Mask | ShiftMask, XK_u, incrgaps, {.i = -1}},

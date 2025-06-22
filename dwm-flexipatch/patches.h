@@ -646,7 +646,7 @@
  * to other WMs fill command.
  * https://dwm.suckless.org/patches/exresize/
  */
-#define EXRESIZE_PATCH 1
+#define EXRESIZE_PATCH 0
 
 /* Only allow clients to "fullscreen" into the space currently given to them.
  * As an example, this will allow you to view a fullscreen video in your browser on
@@ -740,7 +740,7 @@
  * area (master or stack) without affecting the other area.
  * https://dwm.suckless.org/patches/inplacerotate/
  */
-#define INPLACEROTATE_PATCH 1
+#define INPLACEROTATE_PATCH 0
 
 /* This patch lets you define custom insets from each edge of the screen. One use case would be
  * to arrange space for an external bar.
@@ -832,7 +832,7 @@
 /* This patch allows you to move and resize dwm's clients using keyboard bindings.
  * https://dwm.suckless.org/patches/moveresize/
  */
-#define MOVERESIZE_PATCH 1
+#define MOVERESIZE_PATCH 0
 
 /* This patch allows you to move clients around in the stack and swap them with the master.
  * https://dwm.suckless.org/patches/movestack/
@@ -1508,7 +1508,7 @@
  * A revamped, more flexible, and over-the-top version of the original flextile layout.
  * https://dwm.suckless.org/patches/flextile/ (original)
  */
-#define FLEXTILE_DELUXE_LAYOUT 0
+#define FLEXTILE_DELUXE_LAYOUT 1
 
 /* Gappless grid layout.
  * https://dwm.suckless.org/patches/gaplessgrid/
