@@ -360,7 +360,7 @@
  * glyphs are used. This is for systems that do not have an updated version of the Xft library
  * (or generally prefer monochrome fonts).
  */
-#define BAR_NO_COLOR_EMOJI_PATCH 0
+#define BAR_NO_COLOR_EMOJI_PATCH 1
 
 /* This patch adds vertical and horizontal space between the statusbar and the edge of the screen.
  * https://dwm.suckless.org/patches/barpadding/
