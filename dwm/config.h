@@ -154,7 +154,8 @@ static const Rule rules[] = {
      *	_NET_WM_WINDOW_TYPE(ATOM) = wintype
      */
     // workspaces
-    {"(?i)firefox", NULL, NULL, NULL, 1 << 2, 0, statusmon},
+    {"firefox", NULL, NULL, NULL, 1 << 2, 0, statusmon},
+    {"Navigator", NULL, NULL, NULL, 1 << 2, 0, statusmon},
     {"mercury-default", NULL, NULL, NULL, 1 << 2, 0, statusmon},
     {"TelegramDesktop", NULL, NULL, NULL, 1 << 3, 0, statusmon},
     {"Element", NULL, NULL, NULL, 1 << 3, 0, statusmon},

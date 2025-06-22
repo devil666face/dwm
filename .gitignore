@@ -1,1 +1,8 @@
-/bin
+# /bin
+bin/LICENSE
+bin/README.md
+bin/bunster
+bin/bunster.tar.gz
+dwm/drw.o
+dwm/dwm.o
+dwm-flexipatch.bak

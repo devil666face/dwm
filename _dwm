@@ -40,17 +40,23 @@ run_gnome() {
   /usr/libexec/gsd-xsettings &
 }
 
-run_autostart() {
+oneshot() {
   setxkbmap -layout us,ru -option 'grp:lalt_lshift_toggle'
   xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
   xinput set-prop "ELAN1200:00 04F3:30BA Touchpad" "libinput Tapping Enabled" 1
+}
 
-  sh -c 'dbus-monitor --session "type='\''signal'\'',interface='\''org.gnome.ScreenSaver'\''" | while read x; do case "$x" in *'\''boolean true'\'') true;; *'\''boolean false'\'') xset dpms 0 && pkill -CONT xfce4-notifyd && pkill -CONT dwmblocks && pkill -CONT gnome-flashback;; esac; sleep 1; done' &
-
+daemons() {
   $BASE/bin/picom-smooth --config $BASE/picom.conf --experimental-backend &
   /usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd &
   diodon &
 
+  sh -c 'dbus-monitor --session "type='\''signal'\'',interface='\''org.gnome.ScreenSaver'\''" | while read x; do case "$x" in *'\''boolean true'\'') true;; *'\''boolean false'\'') xset dpms 0 && pkill -CONT xfce4-notifyd && pkill -CONT dwmblocks && pkill -CONT gnome-flashback;; esac; sleep 1; done' &
+}
+
+run_autostart() {
+  oneshot &
+  daemons &
   dbus-update-activation-environment --all
 }
                                                                                                                                                   
