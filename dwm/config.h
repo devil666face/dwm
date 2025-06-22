@@ -253,7 +253,7 @@ static const Key keys[] = {
     /* modifier                     key            function                argument */
     {MODKEY, XK_d, spawn,
      SHCMD("gsettings set org.gnome.desktop.input-sources current 0 && find /usr/share/applications ~/.local/share/applications -iname '*.desktop' | while read line; do name=$(grep -m1 '^Name=' \"$line\" | cut -d'=' -f2-); filename=$(basename \"$line\" "
-           ".desktop); echo \"$name\" \"$filename\"; done | dmenu -nb "
+           ".desktop); echo \"$filename\"; done | dmenu -nb "
            "'#282A36' -sf '#282A36' -sb '#BD93F9' -nf '#F8F8F2' -fn 'CaskaydiaCove Nerd Font:size=16:style:SemiBold:antialias=true:autohint=true' | awk '{print $NF}' | xargs -I {} gtk-launch {} &")}, // запуск скрипта через dmenu
     {MODKEY, XK_a, spawn,
      SHCMD("gsettings set org.gnome.desktop.input-sources current 0 && rofi -modi drun -show drun -drun-match-fields name,generic,exec,categories -drun-display-format {name} -window-match-fields title,class,name,desktop -matching normal -location 0 "
