@@ -14,6 +14,7 @@
 
 /* Other patches */
 #include "attachx.h"
+#include "cyclelayouts.h"
 #include "focusdir.h"
 #include "pertag.h"
 #include "placedir.h"
