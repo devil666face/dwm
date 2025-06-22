@@ -277,6 +277,8 @@ static const Key keys[] = {
     {MODKEY, XK_Tab, view, {0}},                        //
     {MODKEY, XK_e, setlayout, {.v = &layouts[0]}},      //
     {MODKEY, XK_w, setlayout, {.v = &layouts[2]}},      //
+    {MODKEY, XK_n, cyclelayout, {.i = -1}},             //
+    {MODKEY, XK_p, cyclelayout, {.i = +1}},             //
     TAGKEYS(XK_grave, 0)                                //
     TAGKEYS(XK_1, 1)                                    //
     TAGKEYS(XK_2, 2)                                    //
