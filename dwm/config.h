@@ -252,16 +252,16 @@ static const Key keys[] = {
            "'#282A36' -sf '#282A36' -sb '#BD93F9' -nf '#F8F8F2' -fn 'CaskaydiaCove Nerd Font:size=16:style:SemiBold:antialias=true:autohint=true' | awk '{print $NF}' | xargs -I {} gtk-launch {} &")}, // запуск скрипта через dmenu
     {MODKEY, XK_a, spawn,
      SHCMD("gsettings set org.gnome.desktop.input-sources current 0 && rofi -modi drun -show drun -drun-match-fields name,generic,exec,categories -drun-display-format {name} -window-match-fields title,class,name,desktop -matching normal -location 0 "
-           "-click-to-exit -theme ~/.config/i3/rofi.d/launchpad.rasi")},                                                                                                                                        // rofi
-    {MODKEY, XK_Escape, spawn, SHCMD("pkill -STOP xfce4-notifyd && pkill -STOP dmenu && gsettings set org.gnome.desktop.input-sources current 0 && gnome-screensaver-command -l")},                             // lock
-    {MODKEY | ShiftMask, XK_Escape, spawn, SHCMD("xset dpms 10 && pkill -STOP xfce4-notifyd && pkill -STOP dmenu && gsettings set org.gnome.desktop.input-sources current 0 && gnome-screensaver-command -l")}, // lock
-    {MODKEY | ShiftMask, XK_d, spawn, {.v = dmenucmd}},                                                                                                                                                         // dmenu
-    {MODKEY, XK_Return, spawn, {.v = termcmd}},                                                                                                                                                                 // term
-    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}},                                                                                                                                                   //
-    {MODKEY, XK_f, spawn, {.v = nautilus}},                                                                                                                                                                     // fm
-    {0, XK_Print, spawn, {.v = flameshot}},                                                                                                                                                                     // screen
-    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},                                                                                                                                                       // screen now
-    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}},                                                                                                                                                      // Exit from session
+           "-click-to-exit -theme ~/.config/i3/rofi.d/launchpad.rasi")},                                                                                                                                            // rofi
+    {MODKEY, XK_Escape, spawn, SHCMD("pkill -STOP xfce4-notifyd && pkill -STOP dwmblocks && gsettings set org.gnome.desktop.input-sources current 0 && gnome-screensaver-command -l")},                             // lock
+    {MODKEY | ShiftMask, XK_Escape, spawn, SHCMD("xset dpms 10 && pkill -STOP xfce4-notifyd && pkill -STOP dwmblocks && gsettings set org.gnome.desktop.input-sources current 0 && gnome-screensaver-command -l")}, // lock
+    {MODKEY | ShiftMask, XK_d, spawn, {.v = dmenucmd}},                                                                                                                                                             // dmenu
+    {MODKEY, XK_Return, spawn, {.v = termcmd}},                                                                                                                                                                     // term
+    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}},                                                                                                                                                       //
+    {MODKEY, XK_f, spawn, {.v = nautilus}},                                                                                                                                                                         // fm
+    {0, XK_Print, spawn, {.v = flameshot}},                                                                                                                                                                         // screen
+    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},                                                                                                                                                           // screen now
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}},                                                                                                                                                          // Exit from session
 
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_j, focusstack, {.i = +1}},
@@ -288,7 +288,7 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}}, //
     {MODKEY, XK_Tab, view, {0}},                        //
     {MODKEY, XK_e, setlayout, {.v = &layouts[0]}},      //
-    {MODKEY, XK_w, setlayout, {.v = &layouts[2]}},      //
+    {MODKEY, XK_w, setlayout, {.v = &layouts[1]}},      //
     {MODKEY, XK_p, cyclelayout, {.i = -1}},             //
     {MODKEY, XK_n, cyclelayout, {.i = +1}},             //
     TAGKEYS(XK_grave, 0)                                //
