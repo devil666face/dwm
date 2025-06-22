@@ -69,11 +69,11 @@ static char tagsselfloatcolor[] = "#BD93F9";
 
 static char hidnormfgcolor[] = "#005577";
 static char hidselfgcolor[] = "#227799";
-static char hidnormbgcolor[] = "#222222";
-static char hidselbgcolor[] = "#222222";
+static char hidnormbgcolor[] = "#FF5555";
+static char hidselbgcolor[] = "#FF5555";
 
-static char urgfgcolor[] = "#bbbbbb";
-static char urgbgcolor[] = "#222222";
+static char urgfgcolor[] = "#44475A";
+static char urgbgcolor[] = "#FF5555";
 static char urgbordercolor[] = "#ff0000";
 static char urgfloatcolor[] = "#db8fd9";
 
@@ -118,9 +118,9 @@ static char *colors[][ColCount] = {
  * them. This works seamlessly with alternative tags and alttagsdecoration patches.
  */
 static char *tagicons[][NUMTAGS] = {
-    [DEFAULT_TAGS] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
-    [ALTERNATIVE_TAGS] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},
-    [ALT_TAGS_DECORATION] = {"<0>", "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>", "<10>"},
+    [DEFAULT_TAGS] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},                              //
+    [ALTERNATIVE_TAGS] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},                          //
+    [ALT_TAGS_DECORATION] = {"<0>", "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>", "<10>"}, //
 };
 
 /* There are two options when it comes to per-client rules:
@@ -237,6 +237,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, topbar ? NULL : "-b", NULL};
+static const char *dmenuapp[] = {"/home/d6f/.config/dwm/bin/_dmenu", NULL};
 static const char *termcmd[] = {"kitty", NULL};
 static const char *termfloat[] = {"kitty", "--class", "floating", NULL};
 static const char *flameshot[] = {"flameshot", "gui", NULL};
@@ -246,7 +247,8 @@ static const char *nautilus[] = {"nautilus", "-w", NULL};
 
 static const Key keys[] = {
     /* modifier                     key            function                argument */
-    {MODKEY, XK_d, spawn, {.v = dmenucmd}},                   // dmenu
+    {MODKEY, XK_d, spawn, {.v = dmenuapp}},                   // dmenu
+    {MODKEY | ShiftMask, XK_d, spawn, {.v = dmenucmd}},       // dmenu
     {MODKEY, XK_Return, spawn, {.v = termcmd}},               // term
     {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}}, //
     {MODKEY, XK_f, spawn, {.v = nautilus}},                   // fm
