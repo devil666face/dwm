@@ -238,6 +238,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, topbar ? NULL : "-b", NULL};
 static const char *termcmd[] = {"kitty", NULL};
+static const char *termfloat[] = {"kitty", "--class", "floating", NULL};
 static const char *flameshot[] = {"flameshot", "gui", NULL};
 static const char *flameshotscreen[] = {"flameshot", "screen", NULL};
 static const char *exitsession[] = {"pkill", "-f", "_dwm", NULL};
@@ -245,12 +246,13 @@ static const char *nautilus[] = {"nautilus", "-w", NULL};
 
 static const Key keys[] = {
     /* modifier                     key            function                argument */
-    {MODKEY, XK_d, spawn, {.v = dmenucmd}},                // dmenu
-    {MODKEY, XK_Return, spawn, {.v = termcmd}},            // term
-    {MODKEY, XK_f, spawn, {.v = nautilus}},                // fm
-    {0, XK_Print, spawn, {.v = flameshot}},                // screen
-    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},  // screen now
-    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}}, // Exit from session
+    {MODKEY, XK_d, spawn, {.v = dmenucmd}},                   // dmenu
+    {MODKEY, XK_Return, spawn, {.v = termcmd}},               // term
+    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}}, //
+    {MODKEY, XK_f, spawn, {.v = nautilus}},                   // fm
+    {0, XK_Print, spawn, {.v = flameshot}},                   // screen
+    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},     // screen now
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}},    // Exit from session
 
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_j, focusstack, {.i = +1}},
