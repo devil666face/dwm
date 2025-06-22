@@ -15,7 +15,6 @@
 /* Other patches */
 #include "attachx.h"
 #include "focusdir.h"
-#include "inplacerotate.h"
 #include "pertag.h"
 #include "placedir.h"
 #include "placemouse.h"
@@ -23,6 +22,7 @@
 #include "swapfocus.h"
 #include "vanitygaps.h"
 /* Layouts */
+#include "layout_flextile-deluxe.h"
 #include "layout_monocle.h"
 #include "layout_tile.h"
 

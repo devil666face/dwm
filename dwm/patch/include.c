@@ -15,7 +15,6 @@
 /* Other patches */
 #include "attachx.c"
 #include "focusdir.c"
-#include "inplacerotate.c"
 #include "pertag.c"
 #include "placedir.c"
 #include "placemouse.c"
@@ -24,6 +23,7 @@
 #include "seamless_restart.c"
 /* Layouts */
 #include "layout_facts.c"
+#include "layout_flextile-deluxe.c"
 #include "layout_monocle.c"
 #include "layout_tile.c"
 

@@ -21,8 +21,8 @@ static const int smartgaps_fact = 0;    /* gap factor when there is only one cli
 static const int showbar = 1;           /* 0 means no bar */
 static const int topbar = 1;            /* 0 means bottom bar */
 static const int bar_height = 0;        /* 0 means derive from font, >= 1 explicit height */
-static const int vertpad = 10;          /* vertical padding of bar */
-static const int sidepad = 10;          /* horizontal padding of bar */
+static const int vertpad = 0;           /* vertical padding of bar */
+static const int sidepad = 0;           /* horizontal padding of bar */
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index), 'A' (active monitor) */
 static const int statusmon = 'A';
 static const unsigned int systrayspacing = 0; /* systray spacing */
@@ -180,14 +180,26 @@ static const BarRule barrules[] = {
 /* layout(s) */
 static const float mfact = 0.55;     /* factor of master area size [0.05..0.95] */
 static const int nmaster = 1;        /* number of clients in master area */
+static const int nstack = 0;         /* number of clients in primary stack area */
 static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-    /* symbol     arrange function */
-    {"[]=", tile}, /* first entry is default */
-    {"><>", NULL}, /* no layout function means floating behavior */
-    {"[M]", monocle},
+    /* symbol     arrange function, { nmaster, nstack, layout, master axis, stack axis, secondary stack axis, symbol func } */
+    {"[]=", flextile, {-1, -1, SPLIT_VERTICAL, TOP_TO_BOTTOM, TOP_TO_BOTTOM, 0, NULL}},                        // default tile layout
+    {"><>", NULL, {0}},                                                                                        /* no layout function means floating behavior */
+    {"[M]", flextile, {-1, -1, NO_SPLIT, MONOCLE, MONOCLE, 0, NULL}},                                          // monocle
+    {"|||", flextile, {-1, -1, SPLIT_VERTICAL, LEFT_TO_RIGHT, TOP_TO_BOTTOM, 0, NULL}},                        // columns (col) layout
+    {">M>", flextile, {-1, -1, FLOATING_MASTER, LEFT_TO_RIGHT, LEFT_TO_RIGHT, 0, NULL}},                       // floating master
+    {"[D]", flextile, {-1, -1, SPLIT_VERTICAL, TOP_TO_BOTTOM, MONOCLE, 0, NULL}},                              // deck
+    {"TTT", flextile, {-1, -1, SPLIT_HORIZONTAL, LEFT_TO_RIGHT, LEFT_TO_RIGHT, 0, NULL}},                      // bstack
+    {"===", flextile, {-1, -1, SPLIT_HORIZONTAL, LEFT_TO_RIGHT, TOP_TO_BOTTOM, 0, NULL}},                      // bstackhoriz
+    {"|M|", flextile, {-1, -1, SPLIT_CENTERED_VERTICAL, LEFT_TO_RIGHT, TOP_TO_BOTTOM, TOP_TO_BOTTOM, NULL}},   // centeredmaster
+    {"-M-", flextile, {-1, -1, SPLIT_CENTERED_HORIZONTAL, TOP_TO_BOTTOM, LEFT_TO_RIGHT, LEFT_TO_RIGHT, NULL}}, // centeredmaster horiz
+    {":::", flextile, {-1, -1, NO_SPLIT, GAPPLESSGRID, GAPPLESSGRID, 0, NULL}},                                // gappless grid
+    {"[\\]", flextile, {-1, -1, NO_SPLIT, DWINDLE, DWINDLE, 0, NULL}},                                         // fibonacci dwindle
+    {"(@)", flextile, {-1, -1, NO_SPLIT, SPIRAL, SPIRAL, 0, NULL}},                                            // fibonacci spiral
+    {"[T]", flextile, {-1, -1, SPLIT_VERTICAL, LEFT_TO_RIGHT, TATAMI, 0, NULL}},                               // tatami mats
 };
 
 /* key definitions */
@@ -206,59 +218,42 @@ static const char *nautilus[] = {"nautilus", "-w", NULL};
 
 static const Key keys[] = {
     /* modifier                     key            function                argument */
+    {MODKEY, XK_p, spawn, {.v = dmenucmd}},                // dmenu
     {MODKEY, XK_Return, spawn, {.v = termcmd}},            // term
-    {MODKEY, XK_q, killclient, {0}},                       // close current window
-    {MODKEY | ShiftMask, XK_r, quit, {0}},                 // restart dwm
-    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}}, // exit from session
-    {MODKEY, XK_d, spawn, {.v = dmenucmd}},                // dmenu
-    {MODKEY, XK_b, togglebar, {0}},                        // show/close bar
-    {MODKEY, XK_Left, focusdir, {.i = 0}},                 // left
-    {MODKEY, XK_Right, focusdir, {.i = 1}},                // right
-    {MODKEY, XK_Up, focusdir, {.i = 2}},                   // up
-    {MODKEY, XK_Down, focusdir, {.i = 3}},                 // down
-    {MODKEY | ShiftMask, XK_Left, placedir, {.i = 0}},     // swap left
-    {MODKEY | ShiftMask, XK_Right, placedir, {.i = 1}},    // swap right
-    {MODKEY | ShiftMask, XK_Up, placedir, {.i = 2}},       // swap up
-    {MODKEY | ShiftMask, XK_Down, placedir, {.i = 3}},     // swap down
-    {MODKEY, XK_s, swapfocus, {.i = -1}},
-    {MODKEY, XK_g, incnmaster, {.i = +1}},
-    {MODKEY, XK_v, incnmaster, {.i = -1}},
-    {MODKEY, XK_h, setmfact, {.f = -0.05}},
-    {MODKEY, XK_l, setmfact, {.f = +0.05}},
-    // {MODKEY, XK_Return, zoom, {0}},
-    // {MODKEY | Mod4Mask, XK_u, incrgaps, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_u, incrgaps, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_i, incrigaps, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_i, incrigaps, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_o, incrogaps, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_o, incrogaps, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_6, incrihgaps, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_6, incrihgaps, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_7, incrivgaps, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_7, incrivgaps, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_8, incrohgaps, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_8, incrohgaps, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_9, incrovgaps, {.i = +1}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_9, incrovgaps, {.i = -1}},
-    // {MODKEY | Mod4Mask, XK_0, togglegaps, {0}},
-    // {MODKEY | Mod4Mask | ShiftMask, XK_0, defaultgaps, {0}},
-    // {MODKEY, XK_Tab, view, {0}},
-    // {MODKEY | ControlMask, XK_z, showhideclient, {0}},
-    // {MODKEY | ControlMask, XK_s, unhideall, {0}},
-    // {MODKEY | ShiftMask, XK_c, killclient, {0}},
-    // {MODKEY | ShiftMask, XK_q, quit, {0}},
-    // {MODKEY, XK_t, setlayout, {.v = &layouts[0]}},
-    // {MODKEY, XK_f, setlayout, {.v = &layouts[1]}},
-    // {MODKEY, XK_m, setlayout, {.v = &layouts[2]}},
-    // {MODKEY, XK_space, setlayout, {0}},
-    // {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
-    // {MODKEY, XK_0, view, {.ui = ~0}},
-    // {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
-    // {MODKEY, XK_comma, focusmon, {.i = -1}},
-    // {MODKEY, XK_period, focusmon, {.i = +1}},
-    // {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
-    // {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)};
+    {MODKEY, XK_f, spawn, {.v = nautilus}},                // fm
+    {0, XK_Print, spawn, {.v = flameshot}},                // screen
+    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},  // screen now
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}}, // Exit from session
+
+    {MODKEY, XK_b, togglebar, {0}},
+    {MODKEY, XK_j, focusstack, {.i = +1}},
+    {MODKEY, XK_k, focusstack, {.i = -1}},
+    {MODKEY, XK_Left, focusdir, {.i = 0}},              // left
+    {MODKEY, XK_Right, focusdir, {.i = 1}},             // right
+    {MODKEY, XK_Up, focusdir, {.i = 2}},                // up
+    {MODKEY, XK_Down, focusdir, {.i = 3}},              // down
+    {MODKEY | ShiftMask, XK_Left, placedir, {.i = 0}},  // left
+    {MODKEY | ShiftMask, XK_Right, placedir, {.i = 1}}, // right
+    {MODKEY | ShiftMask, XK_Up, placedir, {.i = 2}},    // up
+    {MODKEY | ShiftMask, XK_Down, placedir, {.i = 3}},  // down
+    {MODKEY, XK_s, swapfocus, {.i = -1}},               //
+    {MODKEY, XK_i, incnmaster, {.i = +1}},              //
+    {MODKEY, XK_d, incnmaster, {.i = -1}},              //
+    {MODKEY | ControlMask, XK_i, incnstack, {.i = +1}}, //
+    {MODKEY | ControlMask, XK_u, incnstack, {.i = -1}}, //
+    {MODKEY, XK_h, setmfact, {.f = -0.05}},             //
+    {MODKEY, XK_l, setmfact, {.f = +0.05}},             //
+    {MODKEY, XK_q, killclient, {0}},                    //
+    {MODKEY | ShiftMask, XK_r, quit, {0}},              //
+    {MODKEY, XK_space, togglefloating, {0}},            // Floating this window
+    {MODKEY, XK_comma, focusmon, {.i = -1}},            //
+    {MODKEY, XK_period, focusmon, {.i = +1}},           //
+    {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},  //
+    {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}}, //
+    {MODKEY, XK_Tab, view, {0}},                        //
+    {MODKEY, XK_e, setlayout, {.v = &layouts[0]}},      //
+    {MODKEY, XK_w, setlayout, {.v = &layouts[2]}},      //
+    TAGKEYS(XK_grave, 0) TAGKEYS(XK_1, 1) TAGKEYS(XK_2, 2) TAGKEYS(XK_3, 3) TAGKEYS(XK_4, 4) TAGKEYS(XK_5, 5) TAGKEYS(XK_6, 6) TAGKEYS(XK_7, 7) TAGKEYS(XK_8, 8) TAGKEYS(XK_9, 9) TAGKEYS(XK_0, 10)};
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
