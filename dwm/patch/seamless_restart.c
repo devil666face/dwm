@@ -42,7 +42,6 @@ void setmonitorfields(Monitor *m)
 	unsigned int i;
 	char atom[22] = {0};
 	Atom monitor_fields;
-	unsigned int flextile_deluxe_bitmask;
 
 	sprintf(atom, "_DWM_MONITOR_FIELDS_%u", m->num);
 	monitor_fields = XInternAtom(dpy, atom, False);
@@ -63,17 +62,7 @@ void setmonitorfields(Monitor *m)
 	 * |-- showbar
 	 */
 	for (i = 0; i <= NUMTAGS; i++) {
-		flextile_deluxe_bitmask = (m->pertag->nstacks[i] & 0x7) << 3;
-		if (m->pertag->ltidxs[i][m->pertag->sellts[i]]->arrange == flextile) {
-			flextile_deluxe_bitmask |=
-				(abs(m->pertag->ltaxis[i][LAYOUT]) & 0xF) << 10 |
-				(m->pertag->ltaxis[i][MASTER] & 0xF) << 14 |
-				(m->pertag->ltaxis[i][STACK]  & 0xF) << 18 |
-				(m->pertag->ltaxis[i][STACK2] & 0xF) << 22 |
-				(m->pertag->ltaxis[i][LAYOUT] < 0 ? 1 : 0) << 24;
-		}
 		uint32_t data[] = {
-			flextile_deluxe_bitmask |
 			(m->pertag->nmasters[i] & 0x7) |
 			(getlayoutindex(m->pertag->ltidxs[i][m->pertag->sellts[i]]) & 0xF) << 6 |
 			m->showbar << 31
@@ -129,28 +118,11 @@ getmonitorfields(Monitor *m)
 		layout_index = (state >> 6) & 0xF;
 		if (layout_index < LENGTH(layouts))
 			m->pertag->ltidxs[i][m->pertag->sellts[i]] = &layouts[layout_index];
-		m->pertag->nstacks[i] = (state >> 3) & 0x7;
-		if (m->pertag->ltidxs[i][m->pertag->sellts[i]]->arrange == flextile) {
-			m->pertag->ltaxis[i][LAYOUT] = (state >> 10) & 0xF;
-			m->pertag->ltaxis[i][MASTER] = (state >> 14) & 0xF;
-			m->pertag->ltaxis[i][STACK]  = (state >> 18) & 0xF;
-			m->pertag->ltaxis[i][STACK2] = (state >> 22) & 0xF;
-			if (state >> 24 & 0x1) {
-				m->pertag->ltaxis[i][LAYOUT] *= -1;
-			}
-		}
 
 		if (!restored && i && (tags & (1 << i))) {
 			m->nmaster = m->pertag->nmasters[i];
 			m->sellt = m->pertag->sellts[i];
 			m->lt[m->sellt] = m->pertag->ltidxs[i][m->sellt];
-			m->nstack = m->pertag->nstacks[i];
-			if (m->lt[m->sellt]->arrange == flextile) {
-				m->ltaxis[LAYOUT] = m->pertag->ltaxis[i][LAYOUT];
-				m->ltaxis[MASTER] = m->pertag->ltaxis[i][MASTER];
-				m->ltaxis[STACK]  = m->pertag->ltaxis[i][STACK];
-				m->ltaxis[STACK2] = m->pertag->ltaxis[i][STACK2];
-			}
 			m->showbar = (state >> 31) & 0x1;
 			restored = 1;
 		}

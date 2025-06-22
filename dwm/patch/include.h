@@ -22,7 +22,11 @@
 #include "swapfocus.h"
 #include "vanitygaps.h"
 /* Layouts */
-#include "layout_flextile-deluxe.h"
+#include "layout_centeredmaster.h"
+#include "layout_columns.h"
+#include "layout_deck.h"
+#include "layout_fibonacci.h"
+#include "layout_gapplessgrid.h"
 #include "layout_monocle.h"
 #include "layout_tile.h"
 

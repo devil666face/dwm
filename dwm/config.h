@@ -148,7 +148,39 @@ static const Rule rules[] = {
      *	WM_WINDOW_ROLE(STRING) = role
      *	_NET_WM_WINDOW_TYPE(ATOM) = wintype
      */
-    RULE(.wintype = WTYPE "DIALOG", .isfloating = 1) RULE(.wintype = WTYPE "UTILITY", .isfloating = 1) RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1) RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)};
+    // workspaces
+    {"(?i)firefox", NULL, NULL, NULL, 1 << 2, 0, statusmon},
+    {"mercury-default", NULL, NULL, NULL, 1 << 2, 0, statusmon},
+    {"TelegramDesktop", NULL, NULL, NULL, 1 << 3, 0, statusmon},
+    {"Element", NULL, NULL, NULL, 1 << 3, 0, statusmon},
+    {"obsidian", NULL, NULL, NULL, 1 << 4, 0, statusmon},
+    {"Thorium-browser", NULL, NULL, NULL, 1 << 5, 0, statusmon},
+    {"Chromium-browser", NULL, NULL, NULL, 1 << 5, 0, statusmon},
+    {"thunderbird", NULL, NULL, NULL, 1 << 5, 0, statusmon},
+    {"KeePassXC", NULL, NULL, NULL, 1 << 6, 0, statusmon},
+    {"YubiKey Manager", NULL, NULL, NULL, 1 << 6, 0, statusmon},
+    {"Yubico Authenticator", NULL, NULL, NULL, 1 << 6, 0, statusmon},
+    {"Virt-manager", NULL, NULL, NULL, 1 << 7, 0, statusmon},
+    {"org.remmina.Remmina", NULL, NULL, NULL, 1 << 8, 0, statusmon},
+    {"Pidgin", NULL, NULL, NULL, 1 << 8, 0, statusmon},
+    {"xfreerdp", NULL, NULL, NULL, 1 << 8, 0, statusmon},
+    {"Gnome-control-center", NULL, NULL, NULL, 1 << 0, 0, statusmon},
+    {"Arandr", NULL, NULL, NULL, 1 << 0, 0, statusmon},
+    {"Nm-connection-editor", NULL, NULL, NULL, 1 << 0, 0, statusmon},
+    // floating
+    {"Org.gnome.Nautilus", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"floating", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"Org.gnome.Nautilus", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"Application Finder", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"Nitrogen", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"Arandr", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"Pavucontrol", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"Gnome-calculator", NULL, NULL, NULL, NULL, 1, statusmon},
+    {"Rofi", NULL, NULL, NULL, NULL, 1, statusmon},
+    RULE(.wintype = WTYPE "DIALOG", .isfloating = 1)   //
+    RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)  //
+    RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)  //
+    RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)}; //
 
 static const MonitorRule monrules[] = {
     /* monitor  tag   layout  mfact  nmaster  showbar  topbar */
@@ -185,21 +217,15 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
-    /* symbol     arrange function, { nmaster, nstack, layout, master axis, stack axis, secondary stack axis, symbol func } */
-    {"[]=", flextile, {-1, -1, SPLIT_VERTICAL, TOP_TO_BOTTOM, TOP_TO_BOTTOM, 0, NULL}},                        // default tile layout
-    {"><>", NULL, {0}},                                                                                        /* no layout function means floating behavior */
-    {"[M]", flextile, {-1, -1, NO_SPLIT, MONOCLE, MONOCLE, 0, NULL}},                                          // monocle
-    {"|||", flextile, {-1, -1, SPLIT_VERTICAL, LEFT_TO_RIGHT, TOP_TO_BOTTOM, 0, NULL}},                        // columns (col) layout
-    {">M>", flextile, {-1, -1, FLOATING_MASTER, LEFT_TO_RIGHT, LEFT_TO_RIGHT, 0, NULL}},                       // floating master
-    {"[D]", flextile, {-1, -1, SPLIT_VERTICAL, TOP_TO_BOTTOM, MONOCLE, 0, NULL}},                              // deck
-    {"TTT", flextile, {-1, -1, SPLIT_HORIZONTAL, LEFT_TO_RIGHT, LEFT_TO_RIGHT, 0, NULL}},                      // bstack
-    {"===", flextile, {-1, -1, SPLIT_HORIZONTAL, LEFT_TO_RIGHT, TOP_TO_BOTTOM, 0, NULL}},                      // bstackhoriz
-    {"|M|", flextile, {-1, -1, SPLIT_CENTERED_VERTICAL, LEFT_TO_RIGHT, TOP_TO_BOTTOM, TOP_TO_BOTTOM, NULL}},   // centeredmaster
-    {"-M-", flextile, {-1, -1, SPLIT_CENTERED_HORIZONTAL, TOP_TO_BOTTOM, LEFT_TO_RIGHT, LEFT_TO_RIGHT, NULL}}, // centeredmaster horiz
-    {":::", flextile, {-1, -1, NO_SPLIT, GAPPLESSGRID, GAPPLESSGRID, 0, NULL}},                                // gappless grid
-    {"[\\]", flextile, {-1, -1, NO_SPLIT, DWINDLE, DWINDLE, 0, NULL}},                                         // fibonacci dwindle
-    {"(@)", flextile, {-1, -1, NO_SPLIT, SPIRAL, SPIRAL, 0, NULL}},                                            // fibonacci spiral
-    {"[T]", flextile, {-1, -1, SPLIT_VERTICAL, LEFT_TO_RIGHT, TATAMI, 0, NULL}},                               // tatami mats
+    /* symbol     arrange function */
+    {"[]=", tile},           /* first entry is default */
+    {"><>", NULL},           /* no layout function means floating behavior */
+    {"[M]", monocle},        //
+    {"|M|", centeredmaster}, //
+    {"|||", col},            //
+    {"[D]", deck},           //
+    {"[\\]", dwindle},       //
+    {":::", gaplessgrid},    //
 };
 
 /* key definitions */
@@ -218,7 +244,7 @@ static const char *nautilus[] = {"nautilus", "-w", NULL};
 
 static const Key keys[] = {
     /* modifier                     key            function                argument */
-    {MODKEY, XK_p, spawn, {.v = dmenucmd}},                // dmenu
+    {MODKEY, XK_d, spawn, {.v = dmenucmd}},                // dmenu
     {MODKEY, XK_Return, spawn, {.v = termcmd}},            // term
     {MODKEY, XK_f, spawn, {.v = nautilus}},                // fm
     {0, XK_Print, spawn, {.v = flameshot}},                // screen
@@ -237,15 +263,13 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_Up, placedir, {.i = 2}},    // up
     {MODKEY | ShiftMask, XK_Down, placedir, {.i = 3}},  // down
     {MODKEY, XK_s, swapfocus, {.i = -1}},               //
-    {MODKEY, XK_i, incnmaster, {.i = +1}},              //
-    {MODKEY, XK_d, incnmaster, {.i = -1}},              //
-    {MODKEY | ControlMask, XK_i, incnstack, {.i = +1}}, //
-    {MODKEY | ControlMask, XK_u, incnstack, {.i = -1}}, //
+    {MODKEY, XK_bracketleft, incnmaster, {.i = +1}},    //
+    {MODKEY, XK_bracketright, incnmaster, {.i = -1}},   //
     {MODKEY, XK_h, setmfact, {.f = -0.05}},             //
     {MODKEY, XK_l, setmfact, {.f = +0.05}},             //
     {MODKEY, XK_q, killclient, {0}},                    //
     {MODKEY | ShiftMask, XK_r, quit, {0}},              //
-    {MODKEY, XK_space, togglefloating, {0}},            // Floating this window
+    {MODKEY, XK_space, togglefloating, {0}},            // floating window
     {MODKEY, XK_comma, focusmon, {.i = -1}},            //
     {MODKEY, XK_period, focusmon, {.i = +1}},           //
     {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},  //
@@ -253,7 +277,17 @@ static const Key keys[] = {
     {MODKEY, XK_Tab, view, {0}},                        //
     {MODKEY, XK_e, setlayout, {.v = &layouts[0]}},      //
     {MODKEY, XK_w, setlayout, {.v = &layouts[2]}},      //
-    TAGKEYS(XK_grave, 0) TAGKEYS(XK_1, 1) TAGKEYS(XK_2, 2) TAGKEYS(XK_3, 3) TAGKEYS(XK_4, 4) TAGKEYS(XK_5, 5) TAGKEYS(XK_6, 6) TAGKEYS(XK_7, 7) TAGKEYS(XK_8, 8) TAGKEYS(XK_9, 9) TAGKEYS(XK_0, 10)};
+    TAGKEYS(XK_grave, 0)                                //
+    TAGKEYS(XK_1, 1)                                    //
+    TAGKEYS(XK_2, 2)                                    //
+    TAGKEYS(XK_3, 3)                                    //
+    TAGKEYS(XK_4, 4)                                    //
+    TAGKEYS(XK_5, 5)                                    //
+    TAGKEYS(XK_6, 6)                                    //
+    TAGKEYS(XK_7, 7)                                    //
+    TAGKEYS(XK_8, 8)                                    //
+    TAGKEYS(XK_9, 9)                                    //
+    TAGKEYS(XK_0, 10)};                                 //
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */

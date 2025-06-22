@@ -186,27 +186,14 @@ typedef struct {
 } Key;
 
 typedef struct {
-  int nmaster;
-  int nstack;
-  int layout;
-  int masteraxis; // master stack area
-  int stack1axis; // primary stack area
-  int stack2axis; // secondary stack area, e.g. centered master
-  void (*symbolfunc)(Monitor *, unsigned int);
-} LayoutPreset;
-
-typedef struct {
   const char *symbol;
   void (*arrange)(Monitor *);
-  LayoutPreset preset;
 } Layout;
 
 typedef struct Pertag Pertag;
 struct Monitor {
   char ltsymbol[16];
   float mfact;
-  int ltaxis[4];
-  int nstack;
   int nmaster;
   int num;
   int mx, my, mw, mh; /* screen size */
@@ -833,7 +820,6 @@ Monitor *createmon(void) {
   m->tagset[0] = m->tagset[1] = 1;
   m->mfact = mfact;
   m->nmaster = nmaster;
-  m->nstack = nstack;
   m->showbar = showbar;
   m->gappih = gappih;
   m->gappiv = gappiv;
@@ -886,16 +872,10 @@ Monitor *createmon(void) {
     bar->borderscheme = SchemeNorm;
   }
 
-  m->ltaxis[LAYOUT] = m->lt[0]->preset.layout;
-  m->ltaxis[MASTER] = m->lt[0]->preset.masteraxis;
-  m->ltaxis[STACK] = m->lt[0]->preset.stack1axis;
-  m->ltaxis[STACK2] = m->lt[0]->preset.stack2axis;
-
   if (!(m->pertag = (Pertag *)calloc(1, sizeof(Pertag))))
     die("fatal: could not malloc() %u bytes\n", sizeof(Pertag));
   m->pertag->curtag = 1;
   for (i = 0; i <= NUMTAGS; i++) {
-    m->pertag->nstacks[i] = m->nstack;
 
     /* init layouts */
     for (j = 0; j < LENGTH(monrules); j++) {
@@ -907,10 +887,6 @@ Monitor *createmon(void) {
         m->pertag->ltidxs[i][1] = m->lt[0];
         m->pertag->nmasters[i] = (mr->nmaster > -1 ? mr->nmaster : m->nmaster);
         m->pertag->mfacts[i] = (mr->mfact > -1 ? mr->mfact : m->mfact);
-        m->pertag->ltaxis[i][LAYOUT] = m->pertag->ltidxs[i][0]->preset.layout;
-        m->pertag->ltaxis[i][MASTER] = m->pertag->ltidxs[i][0]->preset.masteraxis;
-        m->pertag->ltaxis[i][STACK] = m->pertag->ltidxs[i][0]->preset.stack1axis;
-        m->pertag->ltaxis[i][STACK2] = m->pertag->ltidxs[i][0]->preset.stack2axis;
         break;
       }
     }
@@ -1559,9 +1535,8 @@ int noborder(Client *c) {
   if (&monocle == c->mon->lt[c->mon->sellt]->arrange)
     monocle_layout = 1;
 
-  if (&flextile == c->mon->lt[c->mon->sellt]->arrange && ((c->mon->ltaxis[LAYOUT] == NO_SPLIT && c->mon->ltaxis[MASTER] == MONOCLE) || (c->mon->ltaxis[STACK] == MONOCLE && c->mon->nmaster == 0))) {
+  if (&deck == c->mon->lt[c->mon->sellt]->arrange && c->mon->nmaster == 0)
     monocle_layout = 1;
-  }
 
   if (!monocle_layout && (nexttiled(c->mon->clients) != c || nexttiled(c->next)))
     return 0;
@@ -1912,20 +1887,6 @@ void setlayout(const Arg *arg) {
     selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt] = (Layout *)arg->v;
   selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
 
-  if (selmon->lt[selmon->sellt]->preset.nmaster && selmon->lt[selmon->sellt]->preset.nmaster != -1)
-    selmon->nmaster = selmon->lt[selmon->sellt]->preset.nmaster;
-  if (selmon->lt[selmon->sellt]->preset.nstack && selmon->lt[selmon->sellt]->preset.nstack != -1)
-    selmon->nstack = selmon->lt[selmon->sellt]->preset.nstack;
-
-  selmon->ltaxis[LAYOUT] = selmon->lt[selmon->sellt]->preset.layout;
-  selmon->ltaxis[MASTER] = selmon->lt[selmon->sellt]->preset.masteraxis;
-  selmon->ltaxis[STACK] = selmon->lt[selmon->sellt]->preset.stack1axis;
-  selmon->ltaxis[STACK2] = selmon->lt[selmon->sellt]->preset.stack2axis;
-
-  selmon->pertag->ltaxis[selmon->pertag->curtag][LAYOUT] = selmon->ltaxis[LAYOUT];
-  selmon->pertag->ltaxis[selmon->pertag->curtag][MASTER] = selmon->ltaxis[MASTER];
-  selmon->pertag->ltaxis[selmon->pertag->curtag][STACK] = selmon->ltaxis[STACK];
-  selmon->pertag->ltaxis[selmon->pertag->curtag][STACK2] = selmon->ltaxis[STACK2];
   strncpy(selmon->ltsymbol, selmon->lt[selmon->sellt]->symbol, sizeof selmon->ltsymbol);
   if (selmon->sel)
     arrange(selmon);
