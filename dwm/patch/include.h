@@ -7,15 +7,21 @@
 #include "bar_status.h"
 #include "bar_tags.h"
 #include "bar_wintitle.h"
+#include "bar_fancybar.h"
 #include "bar_awesomebar.h"
 #include "bar_systray.h"
 #include "bar_wintitleactions.h"
 
 /* Other patches */
 #include "attachx.h"
+#include "focusdir.h"
+#include "inplacerotate.h"
+#include "moveresize.h"
 #include "pertag.h"
-#include "restartsig.h"
+#include "placedir.h"
+#include "placemouse.h"
 #include "seamless_restart.h"
+#include "swapfocus.h"
 #include "vanitygaps.h"
 /* Layouts */
 #include "layout_monocle.h"

@@ -43,6 +43,13 @@ tasks:
       - make dwm
       - mv dwm {{.bin}}
 
+  finale:
+    desc: use finalazer
+    silent: true
+    dir: dwm-flexipatch
+    cmds:
+      - ./flexipatch-finalizer.sh -r -o ../dwm
+
   build.dwmblocks:
     desc: build dwmblocks bin
     silent: true
