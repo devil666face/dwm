@@ -19,6 +19,7 @@
 #include "pertag.c"
 #include "placedir.c"
 #include "placemouse.c"
+#include "setborderpx.c"
 #include "swapfocus.c"
 #include "vanitygaps.c"
 #include "seamless_restart.c"

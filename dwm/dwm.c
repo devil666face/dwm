@@ -202,6 +202,7 @@ struct Monitor {
   int gappiv;         /* vertical gap between windows */
   int gappoh;         /* horizontal outer gaps */
   int gappov;         /* vertical outer gaps */
+  int borderpx;
   unsigned int seltags;
   unsigned int sellt;
   unsigned int tagset[2];
@@ -223,9 +224,10 @@ typedef struct {
   unsigned int tags;
   int isfloating;
   int monitor;
+  int bw;
 } Rule;
 
-#define RULE(...) {.monitor = -1, __VA_ARGS__},
+#define RULE(...) {.monitor = -1, .bw = -1, __VA_ARGS__},
 
 /* Cross patch compatibility rule macro helper macros */
 #define FLOATING , .isfloating = 1
@@ -405,6 +407,8 @@ void applyrules(Client *c) {
   for (i = 0; i < LENGTH(rules); i++) {
     r = &rules[i];
     if ((!r->title || strstr(c->name, r->title)) && (!r->class || strstr(class, r->class)) && (!r->instance || strstr(instance, r->instance)) && (!r->wintype || wintype == XInternAtom(dpy, r->wintype, False))) {
+      if (r->bw != -1)
+        c->bw = r->bw;
       c->isfloating = r->isfloating;
       c->tags |= r->tags;
       for (m = mons; m && m->num != r->monitor; m = m->next)
@@ -821,6 +825,7 @@ Monitor *createmon(void) {
   m->mfact = mfact;
   m->nmaster = nmaster;
   m->showbar = showbar;
+  m->borderpx = borderpx;
   m->gappih = gappih;
   m->gappiv = gappiv;
   m->gappoh = gappoh;
@@ -867,7 +872,7 @@ Monitor *createmon(void) {
     istopbar = !istopbar;
     bar->showbar = 1;
     bar->external = 0;
-    bar->borderpx = 0;
+    bar->borderpx = (barborderpx ? barborderpx : borderpx);
     bar->bh = bh + bar->borderpx * 2;
     bar->borderscheme = SchemeNorm;
   }
@@ -1347,13 +1352,13 @@ void manage(Window w, XWindowAttributes *wa) {
   if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
     c->mon = t->mon;
     c->tags = t->tags;
-    c->bw = borderpx;
+    c->bw = c->mon->borderpx;
   } else {
     if (!settings_restored || c->mon == NULL) {
       c->mon = selmon;
       settings_restored = 0;
     }
-    c->bw = borderpx;
+    c->bw = c->mon->borderpx;
     if (!settings_restored)
       applyrules(c);
   }

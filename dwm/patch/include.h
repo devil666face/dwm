@@ -20,6 +20,7 @@
 #include "placedir.h"
 #include "placemouse.h"
 #include "seamless_restart.h"
+#include "setborderpx.h"
 #include "swapfocus.h"
 #include "vanitygaps.h"
 /* Layouts */
