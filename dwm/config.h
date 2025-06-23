@@ -311,23 +311,23 @@ static const Key keys[] = {
     {MODKEY, XK_period, focusmon, {.i = +1}},           //
     {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},  //
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}}, //
-    {MODKEY, XK_Tab, view, {0}},                        //
-    {MODKEY, XK_e, setlayout, {.v = &layouts[0]}},      //
-    {MODKEY, XK_w, setlayout, {.v = &layouts[1]}},      //
+    // {MODKEY, XK_Tab, view, {0}},                        //
+    {MODKEY, XK_e, setlayout, {.v = &layouts[0]}}, //
+    {MODKEY, XK_w, setlayout, {.v = &layouts[1]}}, //
     {MODKEY | ShiftMask, XK_b, togglealttag, {0}},
-    {MODKEY, XK_p, cyclelayout, {.i = -1}}, //
-    {MODKEY, XK_n, cyclelayout, {.i = +1}}, //
-    TAGKEYS(XK_grave, 0)                    //
-    TAGKEYS(XK_1, 1)                        //
-    TAGKEYS(XK_2, 2)                        //
-    TAGKEYS(XK_3, 3)                        //
-    TAGKEYS(XK_4, 4)                        //
-    TAGKEYS(XK_5, 5)                        //
-    TAGKEYS(XK_6, 6)                        //
-    TAGKEYS(XK_7, 7)                        //
-    TAGKEYS(XK_8, 8)                        //
-    TAGKEYS(XK_9, 9)                        //
-    TAGKEYS(XK_0, 10)};                     //
+    {MODKEY, XK_BackSpace, cyclelayout, {.i = -1}}, //
+    {MODKEY, XK_Tab, cyclelayout, {.i = +1}},       //
+    TAGKEYS(XK_grave, 0)                            //
+    TAGKEYS(XK_1, 1)                                //
+    TAGKEYS(XK_2, 2)                                //
+    TAGKEYS(XK_3, 3)                                //
+    TAGKEYS(XK_4, 4)                                //
+    TAGKEYS(XK_5, 5)                                //
+    TAGKEYS(XK_6, 6)                                //
+    TAGKEYS(XK_7, 7)                                //
+    TAGKEYS(XK_8, 8)                                //
+    TAGKEYS(XK_9, 9)                                //
+    TAGKEYS(XK_0, 10)};                             //
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
@@ -351,8 +351,8 @@ static const Button buttons[] = {
      */
     {ClkClientWin, MODKEY, Button1, moveorplace, {.i = 1}},
     {ClkClientWin, MODKEY, Button2, togglefloating, {0}},
-    {ClkClientWin, MODKEY, Button3, resizemouse, {0}},
-    {ClkClientWin, MODKEY | ShiftMask, Button3, dragmfact, {0}},
+    {ClkClientWin, MODKEY | ShiftMask, Button3, resizemouse, {0}},
+    {ClkClientWin, MODKEY, Button3, dragmfact, {0}},
     {ClkTagBar, 0, Button1, view, {0}},
     {ClkTagBar, 0, Button3, toggleview, {0}},
     {ClkTagBar, MODKEY, Button1, tag, {0}},
