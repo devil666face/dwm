@@ -126,9 +126,9 @@ static char *colors[][ColCount] = {
  * them. This works seamlessly with alternative tags and alttagsdecoration patches.
  */
 static char *tagicons[][NUMTAGS] = {
-    [DEFAULT_TAGS] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},                              //
-    [ALTERNATIVE_TAGS] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},                          //
-    [ALT_TAGS_DECORATION] = {"<0>", "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>", "<10>"}, //
+    [DEFAULT_TAGS] = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"},                                     //
+    [ALTERNATIVE_TAGS] = {"󰎡", "󰎤", "󰎧", "󰎪", "󰎭", "󰎱", "󰎳", "󰎶", "󰎹", "󰎼", "󰽽"}, //
+    [ALT_TAGS_DECORATION] = {"<0>", "<1>", "<2>", "<3>", "<4>", "<5>", "<6>", "<7>", "<8>", "<9>", "<10>"},        //
 };
 
 /* There are two options when it comes to per-client rules:
@@ -312,19 +312,20 @@ static const Key keys[] = {
     {MODKEY, XK_Tab, view, {0}},                        //
     {MODKEY, XK_e, setlayout, {.v = &layouts[0]}},      //
     {MODKEY, XK_w, setlayout, {.v = &layouts[1]}},      //
-    {MODKEY, XK_p, cyclelayout, {.i = -1}},             //
-    {MODKEY, XK_n, cyclelayout, {.i = +1}},             //
-    TAGKEYS(XK_grave, 0)                                //
-    TAGKEYS(XK_1, 1)                                    //
-    TAGKEYS(XK_2, 2)                                    //
-    TAGKEYS(XK_3, 3)                                    //
-    TAGKEYS(XK_4, 4)                                    //
-    TAGKEYS(XK_5, 5)                                    //
-    TAGKEYS(XK_6, 6)                                    //
-    TAGKEYS(XK_7, 7)                                    //
-    TAGKEYS(XK_8, 8)                                    //
-    TAGKEYS(XK_9, 9)                                    //
-    TAGKEYS(XK_0, 10)};                                 //
+    {MODKEY | ShiftMask, XK_b, togglealttag, {0}},
+    {MODKEY, XK_p, cyclelayout, {.i = -1}}, //
+    {MODKEY, XK_n, cyclelayout, {.i = +1}}, //
+    TAGKEYS(XK_grave, 0)                    //
+    TAGKEYS(XK_1, 1)                        //
+    TAGKEYS(XK_2, 2)                        //
+    TAGKEYS(XK_3, 3)                        //
+    TAGKEYS(XK_4, 4)                        //
+    TAGKEYS(XK_5, 5)                        //
+    TAGKEYS(XK_6, 6)                        //
+    TAGKEYS(XK_7, 7)                        //
+    TAGKEYS(XK_8, 8)                        //
+    TAGKEYS(XK_9, 9)                        //
+    TAGKEYS(XK_0, 10)};                     //
 
 /* button definitions */
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */

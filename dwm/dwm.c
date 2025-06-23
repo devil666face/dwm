@@ -212,6 +212,7 @@ struct Monitor {
   Monitor *next;
   Bar *bar;
   const Layout *lt[2];
+  unsigned int alttag;
   Pertag *pertag;
 };
 
