@@ -245,6 +245,8 @@ static const Layout layouts[] = {
 #define DMENU_THEME "'#282A36' -sf '#282A36' -sb '#BD93F9' -nf '#F8F8F2' -fn 'CaskaydiaCove Nerd Font:size=16:style:SemiBold:antialias=true:autohint=true'"
 #define PKILL "pkill -STOP xfce4-notifyd && pkill -STOP dwmblocks && "
 #define ROFI_CONF "~/.config/i3/rofi.d/launchpad.rasi"
+#define GNOME_LOCK "gnome-screensaver-command -l"
+#define XSET_OFF "xset dpms force off && "
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, topbar ? NULL : "-b", NULL};
@@ -262,16 +264,19 @@ static const Key keys[] = {
                      ".desktop); echo \"$filename\"; done | dmenu -nb " DMENU_THEME " | awk '{print $NF}' | xargs -I {} gtk-launch {} &")}, // запуск скрипта через dmenu
     {MODKEY, XK_a, spawn,
      SHCMD(GSETTINGS "rofi -modi drun -show drun -drun-match-fields name,generic,exec,categories -drun-display-format {name} -window-match-fields title,class,name,desktop -matching normal -location 0 "
-                     "-click-to-exit -theme " ROFI_CONF)},                                                         // rofi
-    {MODKEY, XK_Escape, spawn, SHCMD(GSETTINGS PKILL "gnome-screensaver-command -l")},                             // lock
-    {MODKEY | ShiftMask, XK_Escape, spawn, SHCMD(GSETTINGS PKILL "xset dpms 10 && gnome-screensaver-command -l")}, // lock
-    {MODKEY | ShiftMask, XK_d, spawn, {.v = dmenucmd}},                                                            // dmenu
-    {MODKEY, XK_Return, spawn, {.v = termcmd}},                                                                    // term
-    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}},                                                      //
-    {MODKEY, XK_f, spawn, {.v = nautilus}},                                                                        // fm
-    {0, XK_Print, spawn, {.v = flameshot}},                                                                        // screen
-    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},                                                          // screen now
-    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}},                                                         // Exit from session
+                     "-click-to-exit -theme " ROFI_CONF)},                                                 // rofi
+    {MODKEY, XK_Escape, spawn, SHCMD(GSETTINGS PKILL GNOME_LOCK)},                                         // lock
+    {MODKEY | ShiftMask, XK_Escape, spawn, SHCMD(GSETTINGS PKILL "xset dpms 10 && " GNOME_LOCK)},          // lock
+    {MODKEY | ShiftMask, XK_d, spawn, {.v = dmenucmd}},                                                    // dmenu
+    {MODKEY, XK_Return, spawn, {.v = termcmd}},                                                            // term
+    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}},                                              //
+    {MODKEY, XK_f, spawn, {.v = nautilus}},                                                                // fm
+    {0, XK_Print, spawn, {.v = flameshot}},                                                                // screen
+    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},                                                  // screen now
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}},                                                 // exit from session
+    {MODKEY | ShiftMask, XK_s, spawn, SHCMD(XSET_OFF "systemctl poweroff")},                               // shutdown
+    {MODKEY | ShiftMask, XK_w, spawn, SHCMD(XSET_OFF GSETTINGS PKILL GNOME_LOCK " && systemctl suspend")}, // sleep
+    {MODKEY | ShiftMask, XK_c, spawn, SHCMD(XSET_OFF "systemctl reboot")},                                 // reboot
 
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_j, focusstack, {.i = +1}},
