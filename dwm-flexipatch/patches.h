@@ -427,7 +427,7 @@
 /* This patch adds configuration options for horizontal and vertical padding in the status bar.
  * https://dwm.suckless.org/patches/statuspadding/
  */
-#define BAR_STATUSPADDING_PATCH 0
+#define BAR_STATUSPADDING_PATCH 1
 
 /* This patch adds the ability for dwm to read colors from the linux virtual console.
  *    /sys/module/vt/parameters/default_{red,grn,blu}
@@ -533,7 +533,7 @@
  *
  * https://dwm.suckless.org/patches/borderrule/
  */
-#define BORDER_RULE_PATCH 0
+#define BORDER_RULE_PATCH 1
 
 /* This patch adds an iscentered rule to automatically center clients on the current monitor.
  * This patch takes precedence over centeredwindowname, alwayscenter and fancybar patches.

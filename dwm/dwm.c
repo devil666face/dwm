@@ -223,9 +223,10 @@ typedef struct {
   unsigned int tags;
   int isfloating;
   int monitor;
+  int bw;
 } Rule;
 
-#define RULE(...) {.monitor = -1, __VA_ARGS__},
+#define RULE(...) {.monitor = -1, .bw = -1, __VA_ARGS__},
 
 /* Cross patch compatibility rule macro helper macros */
 #define FLOATING , .isfloating = 1
@@ -405,6 +406,8 @@ void applyrules(Client *c) {
   for (i = 0; i < LENGTH(rules); i++) {
     r = &rules[i];
     if ((!r->title || strstr(c->name, r->title)) && (!r->class || strstr(class, r->class)) && (!r->instance || strstr(instance, r->instance)) && (!r->wintype || wintype == XInternAtom(dpy, r->wintype, False))) {
+      if (r->bw != -1)
+        c->bw = r->bw;
       c->isfloating = r->isfloating;
       c->tags |= r->tags;
       for (m = mons; m && m->num != r->monitor; m = m->next)
@@ -1934,8 +1937,8 @@ void setup(void) {
   drw = drw_create(dpy, screen, root, sw, sh);
   if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
     die("no fonts could be loaded.");
-  lrpad = drw->fonts->h;
-  bh = bar_height ? bar_height : drw->fonts->h + 2;
+  lrpad = drw->fonts->h + horizpadbar;
+  bh = drw->fonts->h + vertpadbar;
   updategeom();
   /* init atoms */
   utf8string = XInternAtom(dpy, "UTF8_STRING", False);

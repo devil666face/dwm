@@ -19,6 +19,8 @@ static const int vertpad                 = 10;  /* vertical padding of bar */
 static const int sidepad                 = 10;  /* horizontal padding of bar */
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index), 'A' (active monitor) */
 static const int statusmon               = 'A';
+static const int horizpadbar             = 2;   /* horizontal padding for statusbar */
+static const int vertpadbar              = 0;   /* vertical padding for statusbar */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int showsystray             = 1;   /* 0 means no systray */
 

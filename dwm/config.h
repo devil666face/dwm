@@ -25,6 +25,8 @@ static const int vertpad = 0;           /* vertical padding of bar */
 static const int sidepad = 0;           /* horizontal padding of bar */
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index), 'A' (active monitor) */
 static const int statusmon = 'A';
+static const int horizpadbar = -5;            /* horizontal padding for statusbar */
+static const int vertpadbar = 0;              /* vertical padding for statusbar */
 static const unsigned int systrayspacing = 0; /* systray spacing */
 static const int showsystray = 1;             /* 0 means no systray */
 
@@ -154,39 +156,40 @@ static const Rule rules[] = {
      *	_NET_WM_WINDOW_TYPE(ATOM) = wintype
      */
     // workspaces
-    {"firefox", NULL, NULL, NULL, 1 << 2, 0, statusmon},
-    {"Navigator", NULL, NULL, NULL, 1 << 2, 0, statusmon},
-    {"mercury-default", NULL, NULL, NULL, 1 << 2, 0, statusmon},
-    {"TelegramDesktop", NULL, NULL, NULL, 1 << 3, 0, statusmon},
-    {"Element", NULL, NULL, NULL, 1 << 3, 0, statusmon},
-    {"obsidian", NULL, NULL, NULL, 1 << 4, 0, statusmon},
-    {"Thorium-browser", NULL, NULL, NULL, 1 << 5, 0, statusmon},
-    {"Chromium-browser", NULL, NULL, NULL, 1 << 5, 0, statusmon},
-    {"thunderbird", NULL, NULL, NULL, 1 << 5, 0, statusmon},
-    {"KeePassXC", NULL, NULL, NULL, 1 << 6, 0, statusmon},
-    {"YubiKey Manager", NULL, NULL, NULL, 1 << 6, 0, statusmon},
-    {"Yubico Authenticator", NULL, NULL, NULL, 1 << 6, 0, statusmon},
-    {"Virt-manager", NULL, NULL, NULL, 1 << 7, 0, statusmon},
-    {"org.remmina.Remmina", NULL, NULL, NULL, 1 << 8, 0, statusmon},
-    {"Pidgin", NULL, NULL, NULL, 1 << 8, 0, statusmon},
-    {"xfreerdp", NULL, NULL, NULL, 1 << 8, 0, statusmon},
-    {"Gnome-control-center", NULL, NULL, NULL, 1 << 0, 0, statusmon},
-    {"Arandr", NULL, NULL, NULL, 1 << 0, 0, statusmon},
-    {"Nm-connection-editor", NULL, NULL, NULL, 1 << 0, 0, statusmon},
+    RULE(.class = "", .bw = borderpx)                                            //
+    RULE(.class = "firefox", .tags = 1 << 2, .monitor = statusmon)               //
+    RULE(.class = "Navigator", .tags = 1 << 2, .monitor = statusmon)             //
+    RULE(.class = "mercury-default", .tags = 1 << 2, .monitor = statusmon)       //
+    RULE(.class = "TelegramDesktop", .tags = 1 << 3, .monitor = statusmon)       //
+    RULE(.class = "Element", .tags = 1 << 3, .monitor = statusmon)               //
+    RULE(.class = "obsidian", .tags = 1 << 4, .monitor = statusmon)              //
+    RULE(.class = "Thorium-browser", .tags = 1 << 5, .monitor = statusmon)       //
+    RULE(.class = "Chromium-browser", .tags = 1 << 5, .monitor = statusmon)      //
+    RULE(.class = "thunderbird", .tags = 1 << 5, .monitor = statusmon)           //
+    RULE(.class = "KeePassXC", .tags = 1 << 6, .monitor = statusmon)             //
+    RULE(.class = "YubiKey Manager", .tags = 1 << 6, .monitor = statusmon)       //
+    RULE(.class = "Yubico Authenticator", .tags = 1 << 6, .monitor = statusmon)  //
+    RULE(.class = "Virt-manager", .tags = 1 << 7, .monitor = statusmon)          //
+    RULE(.class = "org.remmina.Remmina", .tags = 1 << 8, .monitor = statusmon)   //
+    RULE(.class = "Pidgin", .tags = 1 << 8, .monitor = statusmon)                //
+    RULE(.class = "xfreerdp", .tags = 1 << 8, .monitor = statusmon)              //
+    RULE(.class = "Gnome-control-center", .tags = 1 << 10, .monitor = statusmon) //
+    RULE(.class = "Arandr", .tags = 1 << 10, .monitor = statusmon)               //
+    RULE(.class = "Nm-connection-editor", .tags = 1 << 10, .monitor = statusmon) //
     // floating
-    {"Org.gnome.Nautilus", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"floating", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"Org.gnome.Nautilus", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"Application Finder", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"Nitrogen", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"Arandr", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"Pavucontrol", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"Gnome-calculator", NULL, NULL, NULL, NULL, 1, statusmon},
-    {"Rofi", NULL, NULL, NULL, NULL, 1, statusmon},
-    RULE(.wintype = WTYPE "DIALOG", .isfloating = 1)   //
-    RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)  //
-    RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)  //
-    RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)}; //
+    RULE(.class = "floating", .isfloating = 1, .monitor = statusmon)           //
+    RULE(.class = "Org.gnome.Nautilus", .isfloating = 1, .monitor = statusmon) //
+    RULE(.class = "Application Finder", .isfloating = 1, .monitor = statusmon) //
+    RULE(.class = "Nitrogen", .isfloating = 1, .monitor = statusmon)           //
+    RULE(.class = "Arandr", .isfloating = 1, .monitor = statusmon)             //
+    RULE(.class = "Pavucontrol", .isfloating = 1, .monitor = statusmon)        //
+    RULE(.class = "Gnome-calculator", .isfloating = 1, .monitor = statusmon)   //
+    RULE(.class = "Rofi", .isfloating = 1, .monitor = statusmon)               //
+    RULE(.wintype = WTYPE "DIALOG", .isfloating = 1)                           //
+    RULE(.wintype = WTYPE "UTILITY", .isfloating = 1)                          //
+    RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)                          //
+    RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)                           //
+};
 
 static const MonitorRule monrules[] = {
     /* monitor  tag   layout  mfact  nmaster  showbar  topbar */
