@@ -241,6 +241,11 @@ static const Layout layouts[] = {
 #define TAGKEYS(KEY, TAG) {MODKEY, KEY, view, {.ui = 1 << TAG}}, {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}}, {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}}, {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
 /* commands */
+#define GSETTINGS "gsettings set org.gnome.desktop.input-sources current 0 && "
+#define DMENU_THEME "'#282A36' -sf '#282A36' -sb '#BD93F9' -nf '#F8F8F2' -fn 'CaskaydiaCove Nerd Font:size=16:style:SemiBold:antialias=true:autohint=true'"
+#define PKILL "pkill -STOP xfce4-notifyd && pkill -STOP dwmblocks && "
+#define ROFI_CONF "~/.config/i3/rofi.d/launchpad.rasi"
+
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, topbar ? NULL : "-b", NULL};
 static const char *termcmd[] = {"kitty", NULL};
@@ -253,21 +258,20 @@ static const char *nautilus[] = {"nautilus", "-w", NULL};
 static const Key keys[] = {
     /* modifier                     key            function                argument */
     {MODKEY, XK_d, spawn,
-     SHCMD("gsettings set org.gnome.desktop.input-sources current 0 && find /usr/share/applications ~/.local/share/applications -iname '*.desktop' | while read line; do name=$(grep -m1 '^Name=' \"$line\" | cut -d'=' -f2-); filename=$(basename \"$line\" "
-           ".desktop); echo \"$filename\"; done | dmenu -nb "
-           "'#282A36' -sf '#282A36' -sb '#BD93F9' -nf '#F8F8F2' -fn 'CaskaydiaCove Nerd Font:size=16:style:SemiBold:antialias=true:autohint=true' | awk '{print $NF}' | xargs -I {} gtk-launch {} &")}, // запуск скрипта через dmenu
+     SHCMD(GSETTINGS "find /usr/share/applications ~/.local/share/applications -iname '*.desktop' | while read line; do name=$(grep -m1 '^Name=' \"$line\" | cut -d'=' -f2-); filename=$(basename \"$line\" "
+                     ".desktop); echo \"$filename\"; done | dmenu -nb " DMENU_THEME " | awk '{print $NF}' | xargs -I {} gtk-launch {} &")}, // запуск скрипта через dmenu
     {MODKEY, XK_a, spawn,
-     SHCMD("gsettings set org.gnome.desktop.input-sources current 0 && rofi -modi drun -show drun -drun-match-fields name,generic,exec,categories -drun-display-format {name} -window-match-fields title,class,name,desktop -matching normal -location 0 "
-           "-click-to-exit -theme ~/.config/i3/rofi.d/launchpad.rasi")},                                                                                                                                            // rofi
-    {MODKEY, XK_Escape, spawn, SHCMD("pkill -STOP xfce4-notifyd && pkill -STOP dwmblocks && gsettings set org.gnome.desktop.input-sources current 0 && gnome-screensaver-command -l")},                             // lock
-    {MODKEY | ShiftMask, XK_Escape, spawn, SHCMD("xset dpms 10 && pkill -STOP xfce4-notifyd && pkill -STOP dwmblocks && gsettings set org.gnome.desktop.input-sources current 0 && gnome-screensaver-command -l")}, // lock
-    {MODKEY | ShiftMask, XK_d, spawn, {.v = dmenucmd}},                                                                                                                                                             // dmenu
-    {MODKEY, XK_Return, spawn, {.v = termcmd}},                                                                                                                                                                     // term
-    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}},                                                                                                                                                       //
-    {MODKEY, XK_f, spawn, {.v = nautilus}},                                                                                                                                                                         // fm
-    {0, XK_Print, spawn, {.v = flameshot}},                                                                                                                                                                         // screen
-    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},                                                                                                                                                           // screen now
-    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}},                                                                                                                                                          // Exit from session
+     SHCMD(GSETTINGS "rofi -modi drun -show drun -drun-match-fields name,generic,exec,categories -drun-display-format {name} -window-match-fields title,class,name,desktop -matching normal -location 0 "
+                     "-click-to-exit -theme " ROFI_CONF)},                                                         // rofi
+    {MODKEY, XK_Escape, spawn, SHCMD(GSETTINGS PKILL "gnome-screensaver-command -l")},                             // lock
+    {MODKEY | ShiftMask, XK_Escape, spawn, SHCMD(GSETTINGS PKILL "xset dpms 10 && gnome-screensaver-command -l")}, // lock
+    {MODKEY | ShiftMask, XK_d, spawn, {.v = dmenucmd}},                                                            // dmenu
+    {MODKEY, XK_Return, spawn, {.v = termcmd}},                                                                    // term
+    {MODKEY | ShiftMask, XK_Return, spawn, {.v = termfloat}},                                                      //
+    {MODKEY, XK_f, spawn, {.v = nautilus}},                                                                        // fm
+    {0, XK_Print, spawn, {.v = flameshot}},                                                                        // screen
+    {ShiftMask, XK_Print, spawn, {.v = flameshotscreen}},                                                          // screen now
+    {MODKEY | ShiftMask, XK_e, spawn, {.v = exitsession}},                                                         // Exit from session
 
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_j, focusstack, {.i = +1}},
