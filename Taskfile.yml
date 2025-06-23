@@ -34,6 +34,7 @@ tasks:
     cmds:
       - make dwm
       - mv dwm {{.bin}}
+      - killall dwm
 
   build.dwm-flexipatch:
     desc: build dwm bin
@@ -42,6 +43,7 @@ tasks:
     cmds:
       - make dwm
       - mv dwm {{.bin}}
+      - killall dwm
 
   finale:
     desc: use finalazer
@@ -57,6 +59,7 @@ tasks:
     cmds:
       - make dwmblocks
       - mv dwmblocks {{.bin}}
+      - killall dwmblocks
 
   build:
     desc: build all proj
