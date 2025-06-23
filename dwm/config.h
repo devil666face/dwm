@@ -247,6 +247,7 @@ static const Layout layouts[] = {
 #define ROFI_CONF "~/.config/i3/rofi.d/launchpad.rasi"
 #define GNOME_LOCK "gnome-screensaver-command -l"
 #define XSET_OFF "xset dpms force off && "
+#define POWER_PROFILE "/usr/bin/system76-power profile "
 
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = {"dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, topbar ? NULL : "-b", NULL};
@@ -277,6 +278,9 @@ static const Key keys[] = {
     {MODKEY | ShiftMask, XK_s, spawn, SHCMD(XSET_OFF "systemctl poweroff")},                               // shutdown
     {MODKEY | ShiftMask, XK_w, spawn, SHCMD(XSET_OFF GSETTINGS PKILL GNOME_LOCK " && systemctl suspend")}, // sleep
     {MODKEY | ShiftMask, XK_c, spawn, SHCMD(XSET_OFF "systemctl reboot")},                                 // reboot
+    {MODKEY | ShiftMask, XK_p, spawn, SHCMD("echo '' > /tmp/profile &&" POWER_PROFILE "performance")},  // power - perfomance
+    {MODKEY | ShiftMask, XK_b, spawn, SHCMD("rm /tmp/profile && " POWER_PROFILE "balanced")},              // power - balanced
+    {MODKEY | ShiftMask, XK_l, spawn, SHCMD("echo '󱙷' > /tmp/profile &&" POWER_PROFILE "battery")},     // power - low
 
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_j, focusstack, {.i = +1}},

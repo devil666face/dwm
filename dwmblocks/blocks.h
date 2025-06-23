@@ -7,6 +7,7 @@ static const Block blocks[] = {
     // {" ", "free -h | awk '/Mem:/ {print $3}'", 5, 0},
     // {"", "cat /sys/class/thermal/thermal_zone0/temp | awk '{print $1/1000 \"°C\"}'", 5, 0},
     {"󰃠 ", "echo \"$(( ($(cat /sys/class/backlight/*/brightness) - 193) * 100 / (19393 - 193) ))%\"", 1, 0},
+    {"", "cat /tmp/profile", 1, 0},
     {"", "amixer get Master | awk -F'[][]' '/Left:/ {if ($4 == \"off\") print \"󰖁\"; else print \" \"$2}'", 1, 10},
     {"󰸗 ", "date '+%a %d.%m.%Y'", 60, 0},
     {"", "date '+%H:%M:%S'", 1, 0},
