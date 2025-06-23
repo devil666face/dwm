@@ -24,6 +24,8 @@ static const int topbar = 1;               /* 0 means bottom bar */
 static const int bar_height = 0;           /* 0 means derive from font, >= 1 explicit height */
 static const int vertpad = 10;             /* vertical padding of bar */
 static const int sidepad = 10;             /* horizontal padding of bar */
+#define ICONSIZE 20                        /* icon size */
+#define ICONSPACING 5                      /* space between icon and title */
 /* Status is to be shown on: -1 (all monitors), 0 (a specific monitor by index), 'A' (active monitor) */
 static const int statusmon = 'A';
 static const int horizpadbar = -5;            /* horizontal padding for statusbar */

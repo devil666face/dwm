@@ -18,7 +18,7 @@ tasks:
         wget https://github.com/yassinebenaid/bunster/releases/download/v0.13.0/bunster_linux-amd64.tar.gz -O {{.bin}}/bunster.tar.gz && \
         tar -xf {{.bin}}/bunster.tar.gz -C {{.bin}} && \
         rm -rf {{.bin}}/bunster.tar.gz {{.bin}}/LICENSE {{.bin}}/README.md
-      - sudo apt-get install libx11-dev libxft-dev libxinerama-dev --yes
+      - sudo apt-get install libx11-dev libxft-dev libxinerama-dev libimlib2-dev --yes # libimlib2-dev - only for icons in bar
 
   build.bash:
     desc: build _dwm script

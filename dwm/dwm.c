@@ -88,6 +88,7 @@ enum {
   NetWMFullscreen,
   NetActiveWindow,
   NetWMWindowType,
+  NetWMIcon,
   NetSystemTray,
   NetSystemTrayOP,
   NetSystemTrayOrientation,
@@ -176,6 +177,8 @@ struct Client {
   Client *snext;
   Monitor *mon;
   Window win;
+  unsigned int icw, ich;
+  Picture icon;
 };
 
 typedef struct {
@@ -1346,6 +1349,7 @@ void manage(Window w, XWindowAttributes *wa) {
   c->h = c->oldh = wa->height;
   c->oldbw = wa->border_width;
   settings_restored = restoreclientstate(c);
+  updateicon(c);
   updatetitle(c);
 
   if (XGetTransientForHint(dpy, w, &trans) && (t = wintoclient(trans))) {
@@ -1601,6 +1605,10 @@ void propertynotify(XEvent *e) {
     }
     if (ev->atom == XA_WM_NAME || ev->atom == netatom[NetWMName]) {
       updatetitle(c);
+      if (c == c->mon->sel)
+        drawbar(c->mon);
+    } else if (ev->atom == netatom[NetWMIcon]) {
+      updateicon(c);
       if (c == c->mon->sel)
         drawbar(c->mon);
     }
@@ -1960,6 +1968,7 @@ void setup(void) {
   xatom[Manager] = XInternAtom(dpy, "MANAGER", False);
   xatom[Xembed] = XInternAtom(dpy, "_XEMBED", False);
   xatom[XembedInfo] = XInternAtom(dpy, "_XEMBED_INFO", False);
+  netatom[NetWMIcon] = XInternAtom(dpy, "_NET_WM_ICON", False);
   netatom[NetWMName] = XInternAtom(dpy, "_NET_WM_NAME", False);
   netatom[NetWMState] = XInternAtom(dpy, "_NET_WM_STATE", False);
   netatom[NetWMCheck] = XInternAtom(dpy, "_NET_SUPPORTING_WM_CHECK", False);
@@ -2198,6 +2207,7 @@ void unmanage(Client *c, int destroyed) {
 
   detach(c);
   detachstack(c);
+  freeicon(c);
   if (!destroyed) {
     wc.border_width = c->oldbw;
     XGrabServer(dpy); /* avoid race conditions */

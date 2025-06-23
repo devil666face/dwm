@@ -29,7 +29,7 @@ FREETYPEINC = /usr/include/freetype2
 #KVMLIB = -lkvm
 
 # Uncomment this for the alpha patch and the winicon patch (BAR_ALPHA_PATCH, BAR_WINICON_PATCH)
-#XRENDER = -lXrender
+XRENDER = -lXrender
 
 # Uncomment this for the mdpcontrol patch / MDPCONTROL_PATCH
 #MPDCLIENT = -lmpdclient
@@ -49,7 +49,7 @@ FREETYPEINC = /usr/include/freetype2
 #XCBLIBS = -lX11-xcb -lxcb -lxcb-res
 
 # This is needed for the winicon and tagpreview patches / BAR_WINICON_PATCH / BAR_TAGPREVIEW_PATCH
-#IMLIB2LIBS = -lImlib2
+IMLIB2LIBS = -lImlib2
 
 # Uncomment for the bidi patch
 #BDINC = `pkg-config --cflags fribidi`
@@ -62,7 +62,7 @@ LIBS = -L${X11LIB} -lX11 ${XINERAMALIBS} ${FREETYPELIBS}  ${XRENDER} ${MPDCLIENT
 # flags
 CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700L -DVERSION=\"${VERSION}\" ${XINERAMAFLAGS}
 #CFLAGS   = -g -std=c99 -pedantic -Wall -O0 ${INCS} ${CPPFLAGS}
-CFLAGS   = -std=c99 -pedantic -Wall -Wno-unused-function -Wno-deprecated-declarations -Os ${INCS} ${CPPFLAGS}
+CFLAGS   = -std=c99 -pedantic -Wall -Wno-unused-function -Wno-deprecated-declarations -Os ${INCS} ${CPPFLAGS} -O3 -march=native
 LDFLAGS  = ${LIBS}
 
 # Solaris

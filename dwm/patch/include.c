@@ -6,6 +6,7 @@
 #include "bar_alternativetags.c"
 #include "bar_ltsymbol.c"
 #include "bar_status.c"
+#include "bar_winicon.c"
 #include "bar_tags.c"
 #include "bar_wintitle.c"
 #include "bar_fancybar.c"
