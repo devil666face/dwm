@@ -21,6 +21,7 @@
 #include "placemouse.c"
 #include "swapfocus.c"
 #include "vanitygaps.c"
+#include "dragmfact.c"
 #include "seamless_restart.c"
 /* Layouts */
 #include "layout_facts.c"
