@@ -34,7 +34,7 @@ tasks:
     cmds:
       - make dwm
       - mv dwm {{.bin}}
-      - killall dwm
+      # - killall dwm
 
   build.dwm-flexipatch:
     desc: build dwm bin
@@ -59,7 +59,7 @@ tasks:
     cmds:
       - make dwmblocks
       - mv dwmblocks {{.bin}}
-      - killall dwmblocks
+      # - killall dwmblocks
 
   build:
     desc: build all proj
